@@ -78,7 +78,7 @@ const LINKS = [
   { label: 'Event Schedule', icon: 'calendar', url: '#schedule' },
   { label: 'Results & Winners', icon: 'trophy', url: '#results' },
   { label: 'Campus Guide', icon: 'map', url: '#home' },
-  { label: 'Accommodation', icon: 'bed', url: '#home' },
+  { label: 'Accommodation', icon: 'bed', url: '/docs/accommodation.pdf' },
   { label: 'Food Information', icon: 'food', url: '#home' },
   { label: 'Help Desk', icon: 'phone', url: '#home' },
 ];

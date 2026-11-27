@@ -105,8 +105,6 @@ ol, ul { list-style: none; margin: 0; padding: 0; }
 .tile { margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 104px; padding: 16px 10px; text-align: center; color: var(--ink); text-decoration: none; }
 .tile svg { color: var(--main); }
 .tile b { font-weight: 600; line-height: 1.25; }
-.tile small { color: var(--soft); font-size: .85rem; }
-.tile.soon { opacity: .8; }
 a.tile:hover { background-color: var(--sheen); }
 @media (prefers-color-scheme: dark) { .tile svg { color: var(--gold); } }
 

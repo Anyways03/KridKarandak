@@ -71,16 +71,16 @@ function points() {
     h('tbody', {}, rows.map(r => h('tr', { class: r.rank === '1' ? 'lead' : null }, [r.rank, r.school, r.first, r.second, r.third, r.points].map(x => h('td', {}, x)))))))];
 }
 
-// INFO TILES. Paste the Google Form or PDF link in `url` when it is ready.
-// An empty url shows the tile as "Link coming soon". A url starting with # opens a tab on this site.
+// HOME TILES. Replace '#home' with the Google Form or PDF link when it is ready.
+// A url starting with # opens a tab on this site; any other link opens in a new browser tab.
 const LINKS = [
-  { label: 'Registration', icon: 'clipboard', url: '' },
+  { label: 'Registration', icon: 'clipboard', url: '#home' },
   { label: 'Event Schedule', icon: 'calendar', url: '#schedule' },
   { label: 'Results & Winners', icon: 'trophy', url: '#results' },
-  { label: 'Campus Guide', icon: 'map', url: '' },
-  { label: 'Accommodation', icon: 'bed', url: '' },
-  { label: 'Food Information', icon: 'food', url: '' },
-  { label: 'Help Desk', icon: 'phone', url: '' },
+  { label: 'Campus Guide', icon: 'map', url: '#home' },
+  { label: 'Accommodation', icon: 'bed', url: '#home' },
+  { label: 'Food Information', icon: 'food', url: '#home' },
+  { label: 'Help Desk', icon: 'phone', url: '#home' },
 ];
 const ICONS = {
   clipboard: '<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6M9 16h6"/>',
@@ -98,25 +98,24 @@ function icon(name) {
   return s;
 }
 
-function info() {
+function home() {
   return [h('section', { class: 'card welcome' },
     h('h2', {}, 'Welcome to Krida Karandak 2026–27'),
     h('p', {}, 'Three days of sportsmanship, teamwork, fitness and environmental responsibility.')),
-    h('div', { class: 'tiles' }, LINKS.map(l => l.url
-      ? h('a', { class: 'tile card', href: l.url, ...(l.url.startsWith('#') ? {} : { target: '_blank', rel: 'noopener' }) }, icon(l.icon), h('b', {}, l.label))
-      : h('div', { class: 'tile card soon', 'aria-disabled': 'true' }, icon(l.icon), h('b', {}, l.label), h('small', {}, 'Link coming soon'))))];
+    h('div', { class: 'tiles' }, LINKS.map(l =>
+      h('a', { class: 'tile card', href: l.url, ...(l.url.startsWith('#') ? {} : { target: '_blank', rel: 'noopener' }) }, icon(l.icon), h('b', {}, l.label))))];
 }
 
-const pages = { results, schedule, points, info };
+const pages = { home, results, schedule, points };
 function render() {
-  const page = pages[location.hash.slice(1)] ? location.hash.slice(1) : 'results';
+  const page = pages[location.hash.slice(1)] ? location.hash.slice(1) : 'home';
   document.querySelectorAll('nav a').forEach(a => a.getAttribute('href') === '#' + page ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
   document.querySelector('nav').dataset.i = Object.keys(pages).indexOf(page);
   const at = data && new Date(data.fetchedAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' });
   status.className = failed ? 'note bad' : 'note';
   status.textContent = !data ? (failed ? 'Results are not available right now. This page will keep trying.' : 'Loading…')
     : failed ? `Could not refresh. Showing the results from ${at}.` : `Updated ${at}. Refreshes by itself.`;
-  if (data || page === 'info') view.replaceChildren(...pages[page]());
+  if (data || page === 'home') view.replaceChildren(...pages[page]());
 }
 
 async function getData() {
